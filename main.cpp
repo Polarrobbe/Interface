@@ -1,3 +1,7 @@
+// Snake.cpp : Defines the entry point for the console application.
+//
+
+#include "stdafx.h"
 #include <iostream>
 #include <conio.h>
 #include<Windows.h>
@@ -9,8 +13,9 @@ const int height = 20;
 int x, y, fruitX, fruitY, score;
 int tailX[100], tailY[100];
 int nTail = 0;
-enum eDirection{STOP=0, LEFT, RIGHT, UP, DOWN};
+enum eDirection { STOP = 0, LEFT, RIGHT, UP, DOWN };
 eDirection dir;
+
 
 void Setup()
 {
@@ -32,11 +37,11 @@ void Draw()
 		cout << "#";
 	cout << endl;
 
-	for (int i = 0; i < height;i++)
+	for (int i = 0; i < height; i++)
 	{
 		for (int j = 0; j < width; j++)
 		{
-			if (j == 0 || j == width-1)
+			if (j == 0 || j == width - 1)
 				cout << "#";
 			else
 			{
@@ -44,7 +49,7 @@ void Draw()
 					cout << "O";
 				else if (i == fruitY && j == fruitX)
 					cout << "F";
-				else 
+				else
 				{
 					bool print = false;
 					for (int k = 0; k < nTail; k++)
@@ -54,16 +59,16 @@ void Draw()
 							cout << "o";
 							print = true;
 						}
-						
+
 					}
 					if (!print)
 						cout << " ";
-					
+
 				}
-					
+
 			}
 		}
-		
+
 
 		cout << endl;
 	}
@@ -72,7 +77,7 @@ void Draw()
 
 	cout << endl;
 	cout << "Score:" << score << endl;
-		
+
 }
 void Input()
 {
@@ -81,15 +86,19 @@ void Input()
 		switch (_getch())
 		{
 		case 'a':
+			if(dir!=RIGHT)
 			dir = LEFT;
 			break;
-		case 'd' :
+		case 'd':
+			if (dir != LEFT)
 			dir = RIGHT;
 			break;
-		case 's' :
+		case 's':
+			if (dir != UP)
 			dir = DOWN;
 			break;
-		case 'w' :
+		case 'w':
+			if (dir != DOWN)
 			dir = UP;
 			break;
 		case 'x':
@@ -123,37 +132,25 @@ void Logic()
 	movement = false;
 	switch (dir)
 	{
-	case LEFT :
-		//if (tailX[1] == x - 1)
-			//break;
+	case LEFT:
 		x--;
-		movement = true;
 		break;
-	case RIGHT :
-		//if (tailX[1] == x + 1)
-			//break;
+	case RIGHT:
 		x++;
-		movement = true;
+		
 		break;
-	case DOWN :
-		//if (tailY[1] == y + 1)
-			//break;
+	case DOWN:
 		y++;
-		movement = true;
+		
 		break;
-	case UP :
-		//if (tailY[1] == y - 1)
-			//break;
-		y-- ;
-		movement = true;
+	case UP:
+		y--;
 		break;
-	default : 
+	default:
 		break;
 	}
 	//if (x > width || x < 0 || y < 0 || y > height)
-		//gameOver = true;
-	if (movement == true)
-	{
+	//gameOver = true;
 		if (x >= width - 1) x = 1;
 		if (x <= 0) x = width - 2;
 		if (y >= height) y = 0;
@@ -169,23 +166,25 @@ void Logic()
 			fruitY = rand() % height;
 
 		}
-	}
-	
 }
+
+
 
 int main()
 {
-	
+
 	Setup();
-	while(!gameOver)
+	while (!gameOver)
 	{
-		
+
 		Draw();
 		Input();
 		Logic();
-		Sleep(80);
-
+		Sleep(100);
 	}
-		return 0;
+	cout << "Game Over" << endl;
+	Sleep(20000);
+	return 0;
 }
+
 
